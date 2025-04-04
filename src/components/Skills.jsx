@@ -19,6 +19,7 @@ import {
   SiFirebase,
   SiVercel,
   SiVite,
+  SiJsonwebtokens,
 } from "react-icons/si";
 import { FaHtml5 } from "react-icons/fa";
 import { IoLogoCss3 } from "react-icons/io5";
@@ -108,6 +109,10 @@ const SkillsSection = () => {
         {
           name: "MongoDB",
           icon: <SiMongodb className="w-4 h-4 text-[#47A248]" />,
+        },
+        {
+          name: "JWT",
+          icon: <SiJsonwebtokens className="w-4 h-4 text-[#47A248]" />,
         },
         {
           name: "REST APIs",
