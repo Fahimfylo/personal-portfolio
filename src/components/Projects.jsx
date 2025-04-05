@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import { useState } from "react";
+import { useState, useRef } from "react"; // Import useRef
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons"; // Import slider icons
 
 const MacOsButtons = () => (
@@ -14,6 +14,8 @@ const MacOsButtons = () => (
 
 const ProjectShowcase = () => {
   const [selectedProject, setSelectedProject] = useState(null);
+  const projectSwiperRefs = useRef({}); // Ref to store Swiper instances for each project
+  const popupSwiperRef = useRef(null); // Ref for the popup Swiper
 
   const projects = [
     // ... (your projects array remains the same) ...
@@ -300,6 +302,30 @@ const ProjectShowcase = () => {
     setSelectedProject(null);
   };
 
+  const handlePrevSlide = (index) => {
+    if (projectSwiperRefs.current[index]) {
+      projectSwiperRefs.current[index].swiper.slidePrev();
+    }
+  };
+
+  const handleNextSlide = (index) => {
+    if (projectSwiperRefs.current[index]) {
+      projectSwiperRefs.current[index].swiper.slideNext();
+    }
+  };
+
+  const handlePopupPrevSlide = () => {
+    if (popupSwiperRef.current) {
+      popupSwiperRef.current.swiper.slidePrev();
+    }
+  };
+
+  const handlePopupNextSlide = () => {
+    if (popupSwiperRef.current) {
+      popupSwiperRef.current.swiper.slideNext();
+    }
+  };
+
   return (
     <div className="pt-40 pb-10 px-10 min-h-screen bg-gradient-to-b from-[#020617] via-[#0a0f1f] to-[#000D1A]/90">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -307,10 +333,16 @@ const ProjectShowcase = () => {
           <div
             key={index}
             className="group p-[2px] bg-gray-900/80 hover:scale-[1.02] transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/20 cursor-pointer"
-            onClick={() => handleProjectClick(project)}
           >
             <div className="relative overflow-hidden">
-              <Swiper spaceBetween={10} slidesPerView={1} className="">
+              <Swiper
+                spaceBetween={10}
+                slidesPerView={1}
+                className=""
+                onSwiper={(swiper) =>
+                  (projectSwiperRefs.current[index] = { swiper })
+                }
+              >
                 {project.images.map((img, imgIndex) => (
                   <SwiperSlide key={imgIndex}>
                     <img
@@ -322,13 +354,25 @@ const ProjectShowcase = () => {
                 ))}
               </Swiper>
               {project.images.length > 1 && (
-                <div className="absolute top-1/2 transform -translate-y-1/2 w-full flex justify-between px-4">
-                  <div className="bg-black/50 p-2 rounded-full cursor-pointer">
-                    <ChevronLeftIcon className="text-white" />
-                  </div>
-                  <div className="bg-black/50 p-2 rounded-full cursor-pointer">
-                    <ChevronRightIcon className="text-white" />
-                  </div>
+                <div className="absolute bottom-5 left-0 w-full flex justify-between items-center px-4 z-10">
+                  <button
+                    className="bg-black/50 text-white p-2 rounded-full cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent card click
+                      handlePrevSlide(index);
+                    }}
+                  >
+                    <ChevronLeftIcon className="h-5 w-5" />
+                  </button>
+                  <button
+                    className="bg-black/50 text-white p-2 rounded-full cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent card click
+                      handleNextSlide(index);
+                    }}
+                  >
+                    <ChevronRightIcon className="h-5 w-5" />
+                  </button>
                 </div>
               )}
             </div>
@@ -339,6 +383,7 @@ const ProjectShowcase = () => {
                 background:
                   "linear-gradient(to bottom right, #09001d, #2b012e)",
               }}
+              onClick={() => handleProjectClick(project)}
             >
               <MacOsButtons />
               <CardHeader>
@@ -429,17 +474,40 @@ const ProjectShowcase = () => {
                 </span>
               ))}
             </div>
-            <Swiper spaceBetween={10} slidesPerView={1} className="mb-8">
-              {selectedProject.images.map((img, index) => (
-                <SwiperSlide key={index}>
-                  <img
-                    src={img}
-                    alt={`${selectedProject.title} - ${index + 1}`}
-                    className="w-full h-full object-cover rounded-lg"
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
+            <div className="relative">
+              <Swiper
+                spaceBetween={10}
+                slidesPerView={1}
+                className="mb-8"
+                onSwiper={(swiper) => (popupSwiperRef.current = { swiper })}
+              >
+                {selectedProject.images.map((img, index) => (
+                  <SwiperSlide key={index}>
+                    <img
+                      src={img}
+                      alt={`${selectedProject.title} - ${index + 1}`}
+                      className="w-full h-full object-cover rounded-lg"
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+              {selectedProject.images.length > 1 && (
+                <div className="absolute top-1/2 left-0 w-full flex justify-between items-center transform -translate-y-1/2 px-4 z-10">
+                  <button
+                    className="bg-black/50 text-white p-2 rounded-full cursor-pointer"
+                    onClick={handlePopupPrevSlide}
+                  >
+                    <ChevronLeftIcon className="h-5 w-5" />
+                  </button>
+                  <button
+                    className="bg-black/50 text-white p-2 rounded-full cursor-pointer"
+                    onClick={handlePopupNextSlide}
+                  >
+                    <ChevronRightIcon className="h-5 w-5" />
+                  </button>
+                </div>
+              )}
+            </div>
             <div className="flex justify-between">
               {selectedProject.liveLink && selectedProject.liveLink.url ? (
                 <a
