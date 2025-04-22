@@ -395,7 +395,7 @@ const ProjectShowcase = () => {
                 </CardTitle>
               </CardHeader>
 
-              <CardContent className="mt-4 h-[320px] flex flex-col justify-between">
+              <CardContent className="mt-4 sm:h-[400px] lg:h-[320px] flex flex-col justify-between">
                 <div>
                   <p className="text-slate-300 mb-6 text-lg leading-relaxed">
                     {project.description.substring(0, 150)}...
@@ -411,7 +411,7 @@ const ProjectShowcase = () => {
                     ))}
                   </div>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex pt-5 justify-between">
                   {project.liveLink && project.liveLink.url ? (
                     <a
                       href={project.liveLink.url}
