@@ -75,6 +75,36 @@ const ProjectShowcase = () => {
       liveLink: { url: "https://do-bro.web.app/", text: "Live Link" },
     },
     {
+      title: "StyloCart",
+      description:
+        "A scalable full-stack fashion e-commerce platform built with the MERN stack, offering secure JWT-based authentication with role-based access control (user/admin), a fully functional shopping cart, coupon system, and Stripe-powered checkout. The app includes an admin dashboard for managing products, users, and orders, along with order tracking for customers. MongoDB and Redis are used for efficient and scalable data handling, while the responsive frontend is built with React and styled using Tailwind CSS.",
+      tags: [
+        "React JS",
+        "Mongodb",
+        "Redis",
+        "Stripe",
+        "Robust",
+        "JWT",
+        "Node JS",
+        "Express JS",
+      ],
+      featured: true,
+      images: [
+        "/images/project13/img1 (1).png",
+        "/images/project13/img1 (2).png",
+        "/images/project13/img1 (3).png",
+        "/images/project13/img1 (4).png",
+        "/images/project13/img1 (5).png",
+        "/images/project13/img1 (6).png",
+        "/images/project13/img1 (7).png",
+        "/images/project13/img1 (8).png",
+        "/images/project13/img1 (9).png",
+        "/images/project13/img1 (10).png",
+      ],
+      sourceCode: "https://github.com/Fahimfylo/mern-ecommerce",
+      liveLink: { url: "https://mern-ecommerce-p250.onrender.com/", text: "Live Link" },
+    },
+    {
       title: "Shopex",
       description:
         "Discover a modern and intuitive online shopping experience with Shopex. This front-end e-commerce platform provides a visually appealing interface with customizable light and dark mode themes. Explore a diverse catalog of products, categorized for easy navigation, including Women's Wear, Kid's Wear, Men's Wear, and Trending Products. Each product card presents key details, and a convenient 'See Full' button opens a detailed pop-up, showcasing ratings, available sizes, and more. A streamlined 'Order Now' feature facilitates quick and easy order placement through a dedicated pop-up.",
